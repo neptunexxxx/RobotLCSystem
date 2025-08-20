@@ -1,0 +1,39 @@
+﻿<mah:MetroWindow  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  x:Class="Lmes.界面.手动NG信息界面"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lmes.界面"
+        mc:Ignorable="d"
+        Title="手动NG信息界面" Height="286" Width="451">
+    <d:MetroWindow.DataContext>
+        <local:手动NG信息界面/>
+    </d:MetroWindow.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="NG信息">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Label Width="80" Content="NG工站编号"/>
+                    <ComboBox ItemsSource="{Binding 工站列表}" SelectedItem="{Binding NG工站}" Width="100"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Label Width="80" Content="NG原因"/>
+                    <ComboBox ItemsSource="{Binding NG原因列表}" SelectedItem="{Binding NG原因}" Width="100"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Width="80" Content="保存" Click="Button_保存_Click"/>
+            <Button Grid.Column="1" Width="80" Content="取消" Click="Button_取消_Click"/>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

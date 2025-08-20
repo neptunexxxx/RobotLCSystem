@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>图片\图标.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="图片\LOGO.png" />
+    <None Remove="图片\登录背景.jpg" />
+    <None Remove="字体\MiSans-Normal.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="图片\图标.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0513" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="5.1.0" />
+    <PackageReference Include="MaterialDesignColors" Version="3.1.1-ci794" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.1.1-ci794" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="3.1.1-ci794" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.0-rc.2.24474.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="9.0.0-rc.2.24474.3" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Notifications.Wpf.Core" Version="1.4.1" />
+    <PackageReference Include="NPOI" Version="2.7.2" />
+    <PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.2.0" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+    <PackageReference Include="S7netplus" Version="0.20.0" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
+    <PackageReference Include="ClosedXML" Version="0.104.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFDbContext\EFDbContext.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="图片\LOGO.png" />
+    <Resource Include="图片\登录背景.jpg" />
+    <Resource Include="字体\MiSans-Normal.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="界面\生产管理.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>

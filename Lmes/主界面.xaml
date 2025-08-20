@@ -1,0 +1,166 @@
+﻿<mah:MetroWindow    x:Class="Lmes.主界面"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls" 
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lmes"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:notifications="clr-namespace:Notifications.Wpf.Core.Controls;assembly=Notifications.Wpf.Core"
+        mc:Ignorable="d"
+        Title="主界面" Height="700" Width="1300" Loaded="MetroWindow_Loaded">
+    <d:MetroWindow.DataContext>
+        <local:主界面/>
+    </d:MetroWindow.DataContext>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem x:Name="菜单_连接" Header="连接"  Click="菜单_连接_Click">
+                <MenuItem.Icon>
+                    <iconPacks:PackIconMaterial Kind="LanConnect" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="菜单_断开" Header="断开"  Click="菜单_断开_Click">
+                <MenuItem.Icon>
+                    <iconPacks:PackIconMaterial Kind="LanDisconnect" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="菜单_设置" Header="设置"  >
+                <MenuItem.Icon>
+                    <iconPacks:PackIconMaterial Kind="Cogs" />
+                </MenuItem.Icon>
+                <MenuItem Header="参数文件夹" Click="MenuItem_Click_3">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="SettingsHelper" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="日志文件夹" Click="MenuItem_日志文件夹_Click">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="NoteText" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="保存配置参数" Click="MenuItem_Click_11">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="ContentSave" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="工具">
+                <MenuItem.Icon>
+                    <iconPacks:PackIconMaterial Kind="Toolbox" />
+                </MenuItem.Icon>
+                <MenuItem Header="清空数据库" Click="清空数据库_Click">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Close" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="普通站mes屏蔽">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="NetworkOff" />
+                    </MenuItem.Icon>
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="屏蔽工厂MES"/>
+                        <ToggleButton x:Name="屏蔽工厂mes"  Margin="3,0,0,0" IsChecked="{Binding 屏蔽工厂MES}" Click="屏蔽工厂MES_Click" />
+                    </StackPanel>
+                </MenuItem>
+                <MenuItem Header="调试模式">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="NetworkOff" />
+                    </MenuItem.Icon>
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="调试模式"/>
+                        <ToggleButton x:Name="调试模式按钮"  Margin="3,0,0,0" IsChecked="{Binding 调试模式}" Click="调试模式_Click"/>
+                    </StackPanel>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="菜单_hub测试" Header="设备工具">
+                <MenuItem.Icon>
+                    <iconPacks:PackIconMaterial Kind="Broadcast"/>
+                </MenuItem.Icon>
+                <MenuItem Header="信号表切换" Click="MenuItem_信号表切换_Click"/>
+                <MenuItem Header="配置文件切换" Click="MenuItem_配置文件切换_Click"/>
+            </MenuItem>
+            <StackPanel Orientation="Horizontal">
+                <!--<Label Content="工号"/>
+                <TextBox  MinWidth="100" IsReadOnly="True" Text=""/>
+                <Button x:Name="按钮_切换" Content="切换" Margin="5,0,0,0" Click="按钮_切换_Click"/>
+
+                --><!--<Label Content="班别"/>
+                <TextBox  MinWidth="100" IsReadOnly="True" Text="{Binding 实时信息.班别}"/>
+                <Button x:Name="按钮_班别" Content="切换" Margin="5,0,0,0" Click="按钮_班别_Click"/>--><!--
+                <Label Content="站别"/>
+                <ComboBox Name="当前工站"  MinWidth="100" IsReadOnly="True" ItemsSource="{Binding 工位运行列表}" SelectionChanged="ComboBox_SelectionChanged"/>-->
+            </StackPanel>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="界面选单" Grid.RowSpan="2">
+                <ScrollViewer>
+                    <StackPanel>
+                        <!--<Button Content="切换用户" Margin="10" Click="Button_Click" Cursor="Hand" FontWeight="Bold"/>-->
+                        <Button Content="参数设置界面" Margin="10" Click="Button_Click_2" Cursor="Hand" FontWeight="Bold"/>
+                        <Button Content="站点设置界面" Margin="10" Click="Button_站点设置界面_Click" FontWeight="Bold"/>
+                        <!--<Button Content="生产参数信息查询界面" Margin="10" Click="Button_生产参数信息界面_Click"  FontWeight="Bold"/>
+                        <Button Content="生产过站信息查询界面" Margin="10" Click="Button_Click_9" FontWeight="Bold"/>
+                        <Button Content="设备状态信息查询界面" Margin="10" Click="Button_设备状态消息查询界面_Click" FontWeight="Bold"/>
+                        <Button Content="设备稼动时长数采信息查询界面" Margin="10" Click="Button_设备稼动时长数采信息查询界面_Click" FontWeight="Bold"/>
+                        <Button Content="物料绑定信息查询界面" Margin="10" Click="Button_物料绑定信息查询界面_Click" FontWeight="Bold"/>-->
+                        <Button x:Name="信号监视" Content="信号监视界面" Margin="10" Click="Button_信号监视界面_Click" FontWeight="Bold"/>
+                        <!--<Button Content="物料名称设置界面" Margin="10" Click="Button_物料名称设置界面_Click" FontWeight="Bold"/>
+                        <Button Content="生产管理" Margin="10" Click="Button_产品NG管控_Click" FontWeight="Bold"/>-->
+                        <!--<Button Content="预警信息查询界面" Margin="10" Click="Button_预警信息查询界面_Click" FontWeight="Bold"/>-->
+                    </StackPanel>
+                </ScrollViewer>
+
+            </GroupBox>
+
+            <GroupBox Header="日志" Grid.Row="1" Grid.Column="1">
+                <TabControl>
+                    <TabItem Header="运行日志">
+                        <ListBox x:Name="日志区" VirtualizingPanel.ScrollUnit="Pixel" SelectionMode="Extended" KeyDown="日志区_KeyDown">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="复制" Click="MenuItem_复制_Click"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                        </ListBox>
+                    </TabItem>
+                    <!--<TabItem Header="物料信息">
+                        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding 物料信息表格}" Margin="5" Background="Transparent" IsReadOnly="True" Name="物料信息列表">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding 是否已经绑定}" Value="True">
+                                            <Setter Property="Background" Value="#90EE90"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header ="组件物料ID" Binding="{Binding 组件物料ID}"/>
+                                <DataGridTextColumn Header ="组件物料编号" Binding="{Binding 组件物料编号}"/>
+                                <DataGridTextColumn Header ="组件物料名称" Binding="{Binding 组件物料名称}"/>
+                                <DataGridTextColumn Header ="组件物料用量" Binding="{Binding 组件物料用量}"/>
+                                <DataGridTextColumn Header ="组件物料版本" Binding="{Binding 组件物料版本}"/>
+                                <DataGridTextColumn Header ="组件物料单位" Binding="{Binding 组件物料单位}"/>
+                                <DataGridCheckBoxColumn Header="是否已经绑定" Binding="{Binding 是否已经绑定}"/>
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="复制" Click="MenuItem_物料信息复制_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
+                    </TabItem>-->
+                </TabControl>
+            </GroupBox>
+            <notifications:NotificationArea  
+                MaxItems="3" x:Name="WindowArea"
+                Position="TopRight" Grid.ColumnSpan="10" Grid.RowSpan="10" />
+        </Grid>
+    </DockPanel>
+
+</mah:MetroWindow>

@@ -1,0 +1,68 @@
+﻿<mah:MetroWindow x:Class="Lmes.界面.生产过站信息查询界面"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls" 
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lmes.界面"
+        mc:Ignorable="d"
+        Title="生产过站信息查询" Height="450" Width="800" Loaded="Window_Loaded">
+    <d:MetroWindow.DataContext>
+        <local:生产过站信息查询界面/>
+    </d:MetroWindow.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="查询结果">
+            <DataGrid Name="passStatinInfo" ItemsSource="{Binding PassStation}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding snNumber}" Header="产品SN"/>
+                    <DataGridTextColumn Binding="{Binding materialCode}" Header="物料编码"/>
+                    <DataGridTextColumn Binding="{Binding workOrderNumber}" Header="工单编码"/>
+                    <DataGridTextColumn Binding="{Binding scheduleNumber}" Header="排程编码"/>
+                    <DataGridTextColumn Binding="{Binding stationCode}" Header="工位编号"/>
+                    <DataGridTextColumn Binding="{Binding userId}" Header="操作人"/>
+                    <DataGridTextColumn Binding="{Binding passBeginTime}" Header="入站时间"/>
+                    <DataGridTextColumn Binding="{Binding passEndTime}" Header="出站时间"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="41*" />
+                <ColumnDefinition Width="9*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="时间筛选" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding 是否时间筛选}"  VerticalAlignment="Center" Margin="0,10,10,10"/>
+                <Label Content="开始时间" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding 开始时间,StringFormat='yyyy-MM-dd HH:mm:ss'}" VerticalAlignment="Center"/>
+                <mah:DateTimePicker Width="25" SelectedDateTime="{Binding 开始时间}" VerticalAlignment="Center" Margin="10"/>
+                <Label Content="结束时间" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding 结束时间,StringFormat='yyyy-MM-dd HH:mm:ss'}" VerticalAlignment="Center"/>
+                <mah:DateTimePicker Width="25" SelectedDateTime="{Binding 结束时间}" VerticalAlignment="Center" Margin="10"/>
+                <Label Content="操作人" VerticalAlignment="Center"/>
+                <TextBox  Text="{Binding 用户ID}" MinWidth="80" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Label Content="工单编码" VerticalAlignment="Center"/>
+                <TextBox  Text="{Binding 工单编码}" MinWidth="80" VerticalAlignment="Center"/>
+                <Label Content="排程编码" VerticalAlignment="Center"/>
+                <TextBox  Text="{Binding 排程编码}" MinWidth="80" VerticalAlignment="Center"/>
+                <Label Content="工位编号" VerticalAlignment="Center"/>
+                <TextBox  Text="{Binding 工位编号}" MinWidth="80" VerticalAlignment="Center"/>
+                <Label Content="产品SN" VerticalAlignment="Center"/>
+                <TextBox  Text="{Binding 产品SN}" MinWidth="190" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Button Content="查询" Grid.Row="0" Grid.Column="1" Height="30" Width="120" Click="Search_Click"/>
+            <Button Content="导出" Grid.Row="1" Grid.Column="1" Height="30" Width="120" Click="Export_Click"/>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

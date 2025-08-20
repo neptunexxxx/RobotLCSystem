@@ -1,0 +1,72 @@
+﻿<mah:MetroWindow x:Class="Lmes.参数设置界面"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls" 
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lmes"
+        mc:Ignorable="d"
+        Title="参数设置" Height="450" Width="800" d:DataContext="local:参数设置界面" Loaded="MetroWindow_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="参数设置">
+            <ScrollViewer>
+                <StackPanel>
+                    <StackPanel Margin="20,5,5,0" Orientation="Horizontal">
+                        <Label  Content="产线编号" Width="60" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="cbLineInfo" DisplayMemberPath="产线编号" Margin="5" Width="120" Text="{Binding 当前产线编号}" SelectionChanged="CbLineInfo_SelectionChanged"/>
+                    </StackPanel>
+                    <Label Content="产线设置" FontSize="20"/>
+                    <Grid Height="1" Margin="3" Background="Black"/>
+                    <StackPanel Margin="20,5,5,0" Orientation="Horizontal">
+                        <Label  Content="工厂编号" Width="60" />
+                        <TextBox x:Name="boxFactoryCode" MinWidth="100"/>
+                    </StackPanel>
+                    <StackPanel Margin="20,5,5,0" Orientation="Horizontal">
+                        <Label Content="产线编号" Width="60" />
+                        <TextBox x:Name="boxLineCode" MinWidth="100"/>
+                    </StackPanel>
+                    <StackPanel Margin="20,5,5,0" Orientation="Horizontal" Visibility="{Binding 排程下拉框_可见}">
+                        <Label Content="排程编号" Width="60" />
+                        <ComboBox MinWidth="100" ItemsSource="{Binding 排程列表}" Text="{Binding 当前选择排程}"/>
+                    </StackPanel>
+                    <StackPanel Margin="20,5,5,0" Orientation="Horizontal" Visibility="{Binding 手动下发排程_可见}">
+                        <Label Content="排程编号" Width="60" />
+                        <TextBox MinWidth="100" Text="{Binding 当前选择排程}"/>
+                        <Label Content="计划生产数量" Width="80" Margin="20,0,0,0"/>
+                        <TextBox MinWidth="100" Text="{Binding 排程计划数量}"/>
+                    </StackPanel>
+                    <Label Margin="0,15,0,0" Content="工站设置" FontSize="20"/>
+                    <Grid Height="1" Margin="3" Background="Black"/>
+                    <StackPanel Margin="20,5,5,0" Orientation="Horizontal">
+                        <Label Content="选择运行工位"/>
+                        <ComboBox x:Name="运行工站" Width="100" ItemsSource="{Binding 运行工站列表}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding stationCode}" IsChecked="{Binding isSelected, Mode=TwoWay}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <Label Margin="0,15,0,0" Content="MES设置" FontSize="20"/>
+                    <Grid Height="1" Margin="3" Background="Black"/>
+                    <StackPanel Margin="20,5,5,0" Orientation="Horizontal">
+                        <Label  Content="工厂MES地址" Width="70" />
+                        <TextBox x:Name="boxFMESAddress" MinWidth="140"/>
+                    </StackPanel>
+                    <StackPanel Margin="20,5,5,0" Orientation="Horizontal">
+                        <Label  Content="产线MES地址" Width="70" />
+                        <TextBox x:Name="boxLMESAddress" MinWidth="140"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </GroupBox>
+        <Button Grid.Row="1" Content="保存" Click="ButtonClose_Click" Margin="20"/>
+    </Grid>
+</mah:MetroWindow>
