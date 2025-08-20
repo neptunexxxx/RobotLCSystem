@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>False</UseWPF>
+    <StartupObject>RobotLCForm.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RobotControlSystem\RobotControlSystem.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RobotService-dotnet">
+      <HintPath>bin\Debug\net8.0-windows\RobotService-dotnet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

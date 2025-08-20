@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36408.4 d17.14
+VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotControlSystem", "RobotControlSystem\RobotControlSystem.csproj", "{E400E7BB-B7A1-4CB9-A8FF-A07D45E5C013}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotLCForm", "RobotLCForm\RobotLCForm.csproj", "{391EE328-0AC6-4DC6-A52C-62BDF3CA7713}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lmes", "..\..\.SKY_lmes\Lmes\Lmes.csproj", "{6E84E6D4-0857-EA9A-BB97-9A2181C8B29A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{E400E7BB-B7A1-4CB9-A8FF-A07D45E5C013}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E400E7BB-B7A1-4CB9-A8FF-A07D45E5C013}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E400E7BB-B7A1-4CB9-A8FF-A07D45E5C013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{391EE328-0AC6-4DC6-A52C-62BDF3CA7713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{391EE328-0AC6-4DC6-A52C-62BDF3CA7713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{391EE328-0AC6-4DC6-A52C-62BDF3CA7713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{391EE328-0AC6-4DC6-A52C-62BDF3CA7713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E84E6D4-0857-EA9A-BB97-9A2181C8B29A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E84E6D4-0857-EA9A-BB97-9A2181C8B29A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E84E6D4-0857-EA9A-BB97-9A2181C8B29A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E84E6D4-0857-EA9A-BB97-9A2181C8B29A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
