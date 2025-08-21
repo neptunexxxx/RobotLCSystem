@@ -1,0 +1,96 @@
+﻿<Window x:Class="UdpLowerMachine.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="下位机UDP通信程序" 
+        Height="600" 
+        Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 网络配置区域 -->
+        <GroupBox Header="网络配置" Grid.Row="0" Margin="0,0,0,10">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 本地配置 -->
+                <!--<Label Grid.Column="0" Content="本地地址:" VerticalAlignment="Center" HorizontalAlignment="Right" Width="100"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LocalIP}" Margin="0,5" Padding="5"/>
+                <Label Grid.Row="0" Grid.Column="2" Content="端口:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding LocalPort}" Margin="0,5" Padding="5"/>-->
+
+                <!-- 远程配置 -->
+                <Label Grid.Row="1" Grid.Column="0" Content="目标地址:" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemoteIP}" Margin="0,5" Padding="5"/>
+                <Label Grid.Row="1" Grid.Column="2" Content="端口:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding RemotePort}" Margin="0,5" Padding="5"/>
+
+                <!-- 状态显示 -->
+                <Label Grid.Row="2" Grid.Column="0" Content="连接状态:" VerticalAlignment="Center"/>
+                <Label Grid.Row="2" Grid.Column="1" Content="{Binding ConnectionStatus}" VerticalAlignment="Center" FontWeight="Bold"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- 控制按钮区域 -->
+        <GroupBox Header="控制操作" Grid.Row="1" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Button x:Name="StartConnectionBtn" Content="开始连接" 
+                        Width="100" Height="30" Margin="0,0,10,0"
+                        Click="StartConnection_Click"/>
+                <Button Content="发送状态" 
+                        Width="100" Height="30" Margin="0,0,10,0"
+                        Click="SendStatusMessage_Click"/>
+                <Button Content="清空日志" 
+                        Width="100" Height="30"
+                        Click="ClearLog_Click"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- 协议说明区域 -->
+        <GroupBox Header="协议说明" Grid.Row="2" Margin="0,0,0,10">
+            <TextBlock Margin="10" TextWrapping="Wrap" FontSize="11" Foreground="Gray">
+                <Run Text="支持协议类型: "/>
+                <Run Text="20-初始化, 30-虚拟焊接, 40-焊接, 50-工艺调整, 60-焊后检测" FontWeight="Bold"/>
+                <LineBreak/>
+                <Run Text="端口约定: "/>
+                <Run Text="5010-工装信息, 5011-机器人和焊机信息, 5012-摄像头设备信息" FontWeight="Bold"/>
+                <LineBreak/>
+                <Run Text="程序会自动响应上位机的指令并发送相应的ACK和状态反馈"/>
+            </TextBlock>
+        </GroupBox>
+
+        <!-- 日志显示区域 -->
+        <GroupBox Header="通信日志" Grid.Row="3">
+            <ListBox x:Name="LogListBox" 
+                     ItemsSource="{Binding LogMessages}"
+                     Margin="5"
+                     Background="#F5F5F5"
+                     FontFamily="Consolas"
+                     FontSize="12">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="2"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </GroupBox>
+    </Grid>
+</Window>

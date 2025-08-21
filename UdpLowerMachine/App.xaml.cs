@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace WeldingSlave
+namespace UdpLowerMachine
 {
 	/// <summary>
 	/// Interaction logic for App.xaml
