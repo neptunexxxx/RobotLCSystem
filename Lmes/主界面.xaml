@@ -102,13 +102,15 @@
                     <StackPanel>
                         <!--<Button Content="切换用户" Margin="10" Click="Button_Click" Cursor="Hand" FontWeight="Bold"/>-->
                         <Button Content="参数设置界面" Margin="10" Click="Button_Click_2" Cursor="Hand" FontWeight="Bold"/>
-                        <Button Content="站点设置界面" Margin="10" Click="Button_站点设置界面_Click" FontWeight="Bold"/>
+                        <Button Content="站点设置界面" Margin="10" Click="Button_站点设置界面_Click" Cursor="Hand" FontWeight="Bold"/>
                         <!--<Button Content="生产参数信息查询界面" Margin="10" Click="Button_生产参数信息界面_Click"  FontWeight="Bold"/>
                         <Button Content="生产过站信息查询界面" Margin="10" Click="Button_Click_9" FontWeight="Bold"/>
                         <Button Content="设备状态信息查询界面" Margin="10" Click="Button_设备状态消息查询界面_Click" FontWeight="Bold"/>
                         <Button Content="设备稼动时长数采信息查询界面" Margin="10" Click="Button_设备稼动时长数采信息查询界面_Click" FontWeight="Bold"/>
                         <Button Content="物料绑定信息查询界面" Margin="10" Click="Button_物料绑定信息查询界面_Click" FontWeight="Bold"/>-->
-                        <Button x:Name="信号监视" Content="信号监视界面" Margin="10" Click="Button_信号监视界面_Click" FontWeight="Bold"/>
+                        <Button x:Name="信号监视" Content="PLC信号监视界面" Margin="10" Click="Button_信号监视界面_Click" FontWeight="Bold"/>
+                        <Button Content="UDP通讯测试界面" Margin="10" Click="Button_UDP通讯测试_Click" Cursor="Hand"  FontWeight="Bold"/>
+                        <Button Content="机器人控制界面" Margin="10" Click="Button_机器人控制_Click" Cursor="Hand"  FontWeight="Bold"/>
                         <!--<Button Content="物料名称设置界面" Margin="10" Click="Button_物料名称设置界面_Click" FontWeight="Bold"/>
                         <Button Content="生产管理" Margin="10" Click="Button_产品NG管控_Click" FontWeight="Bold"/>-->
                         <!--<Button Content="预警信息查询界面" Margin="10" Click="Button_预警信息查询界面_Click" FontWeight="Bold"/>-->

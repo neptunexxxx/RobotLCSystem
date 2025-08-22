@@ -9,36 +9,24 @@ using Lmes.功能.枚举;
 using Lmes.工具;
 using Lmes.界面;
 using Lmes.站逻辑;
-using Lmes.站逻辑.数据类型;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Microsoft.Win32;
-using Microsoft.Xaml.Behaviors.Media;
 using Notifications.Wpf.Core;
 using Notifications.Wpf.Core.Controls;
-using Org.BouncyCastle.Cms;
 using PropertyChanged;
 using S7.Net;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Reflection;
-using System.Runtime.Intrinsics.X86;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using Brushes = System.Windows.Media.Brushes;
 using DateTime = System.DateTime;
@@ -458,6 +446,14 @@ namespace Lmes
 		private void Button_预警信息查询界面_Click(object sender, RoutedEventArgs e)
 		{
 			new 预警信息查询界面().Show();
+		}
+		private void Button_UDP通讯测试_Click(object sender, RoutedEventArgs e)
+		{
+			new UDP通讯测试().Show();
+		}
+		private void Button_机器人控制_Click(object sender, RoutedEventArgs e)
+		{
+			new 机器人控制().Show();
 		}
 
 		private void Button_站点设置界面_Click(object sender, RoutedEventArgs e)
