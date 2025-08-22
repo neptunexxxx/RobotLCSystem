@@ -39,8 +39,11 @@
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="S7netplus" Version="0.20.0" />
-    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
     <PackageReference Include="ClosedXML" Version="0.104.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFDbContext\EFDbContext.csproj" />
   </ItemGroup>
 
   <ItemGroup>
