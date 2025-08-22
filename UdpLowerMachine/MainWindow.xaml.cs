@@ -142,19 +142,11 @@ namespace UdpLowerMachine
 				// 创建UDP客户端，连接到远程服务器
 				udpClient = new LowerMachineUdpClient(RemoteIP, remotePortNum, this);
 
-				foreach (var ip in Dns.GetHostAddresses(Dns.GetHostName()))
-				{
-					if (ip.AddressFamily == AddressFamily.InterNetwork) // IPv4
-					{
-						localIP = ip.ToString();
-						break;
-					}
-				}
-				LocalIP = localIP;
-
 				// 连接到服务器
 				if (udpClient.Connect())
 				{
+					//本地端口
+					LocalPort = ((IPEndPoint)udpClient.Socket.LocalEndPoint).Port.ToString();
 					isListening = true;
 					ConnectionStatus = "已连接";
 					StartConnectionBtn.Content = "断开连接";
