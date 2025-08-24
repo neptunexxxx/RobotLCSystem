@@ -120,7 +120,7 @@ namespace Lmes.全局变量
 	public class Lmes连接参数类
 	{
 
-		public string LMES地址 { get; set; } = @"http://127.0.0.1:5000/";
+		public string 上位机地址 { get; set; } = @"http://127.0.0.1:5000/";
 
 		public string 产线MES地址 { get; set; } = @"http://127.0.0.1:5000/";
 
@@ -129,6 +129,8 @@ namespace Lmes.全局变量
 		public string appId { get; set; } = "1";
 
 		public string appKey { get; set; } = "1";
+		public string 机器人IP地址 { get; set; } = @"http://127.0.0.1:5000/";
+		public string LMES地址 { get; set; } = @"http://127.0.0.1:5000/";
 	}
 	public class Plc连接参数类
 	{

@@ -7,11 +7,450 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lmes.界面"
         mc:Ignorable="d"
-        Title="机器人控制界面" Height="800" Width="1000">
-    <d:MetroWindow.DataContext>
-        <local:机器人控制/>
-    </d:MetroWindow.DataContext>
-    <Grid>
-        
-    </Grid>
+        Title="卡诺普机器人控制系统" Height="1050" Width="1500" MinHeight="800" MinWidth="1200"
+        WindowStartupLocation="CenterScreen">
 </mah:MetroWindow>
+<!--<Window.Resources>
+    //样式定义
+    <Style x:Key="ModernButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#FF4A90E2"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF357ABD"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#FF2E6BA8"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="#FFCCCCCC"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
+        <Setter Property="Background" Value="#FFE74C3C"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FFC0392B"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SuccessButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
+        <Setter Property="Background" Value="#FF27AE60"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FF229954"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ModernGroupBoxStyle" TargetType="GroupBox">
+        <Setter Property="Background" Value="#FFF8F9FA"/>
+        <Setter Property="BorderBrush" Value="#FFDEE2E6"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GroupBox">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Background="#FF495057" CornerRadius="4,4,0,0" Padding="10,5">
+                            <ContentPresenter ContentSource="Header" 
+                                                TextElement.Foreground="White"
+                                                TextElement.FontWeight="SemiBold"/>
+                        </Border>
+                        <Border Grid.Row="1" Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="0,0,4,4"
+                                    Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ModernDataGridStyle" TargetType="DataGrid">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="#FFDEE2E6"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="#FFE9ECEF"/>
+        <Setter Property="AlternatingRowBackground" Value="#FFF8F9FA"/>
+        <Setter Property="RowBackground" Value="White"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="CanUserReorderColumns" Value="False"/>
+        <Setter Property="CanUserResizeColumns" Value="True"/>
+        <Setter Property="CanUserSortColumns" Value="False"/>
+    </Style>
+
+    值转换器
+    <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+
+    状态指示器样式
+    <Style x:Key="StatusIndicator" TargetType="Ellipse">
+        <Setter Property="Width" Value="12"/>
+        <Setter Property="Height" Value="12"/>
+        <Setter Property="Fill" Value="Red"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,5,0"/>
+    </Style>
+</Window.Resources>
+
+<Grid Background="#FFF5F5F5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="300"/>
+    </Grid.RowDefinitions>
+
+    顶部连接控制区域
+    <GroupBox Grid.Row="0" Header="机器人连接控制">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            第一行：连接控制
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
+                <Label Content="机器人IP:" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBox Width="120" Text="{Binding RobotIP}" VerticalAlignment="Center" Padding="5,2"/>
+                <Button Content="连接" Style="{StaticResource SuccessButtonStyle}"
+                            Width="60"
+                            Click="BtnConnect_Click" Margin="10,0,0,0"/>
+                <Button Content="断开" Style="{StaticResource DangerButtonStyle}"
+                            Width="60" Margin="10,0"
+                            Click="BtnDisconnect_Click"/>
+                <Button Content="清除错误" Style="{StaticResource ModernButtonStyle}" 
+                            Width="60" Margin="5,0,0,0"
+                            Click="BtnClearError_Click"/>
+
+                连接状态指示
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                    <Ellipse Style="{StaticResource StatusIndicator}" 
+                                 Fill="{Binding ConnectionStatusBrush}"/>
+                    <Label Content="{Binding ConnectionStatus}" FontWeight="SemiBold"/>
+                </StackPanel>
+            </StackPanel>
+
+            第二行：机器人状态信息
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="伺服状态:" FontWeight="Bold"/>
+                    <Label Content="{Binding ServoStatus}"/>
+                    <Button Content="上电" Style="{StaticResource SuccessButtonStyle}" 
+                                Width="60"
+                                Click="BtnServoOn_Click" Margin="5,0"/>
+                    <Button Content="下电" Style="{StaticResource DangerButtonStyle}" 
+                                Margin="5,0,0,0"
+                                Width="60"
+                                Click="BtnServoOff_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Label Content="工作模式:" FontWeight="Bold"/>
+                    <Label Content="{Binding WorkMode}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Label Content="运动状态:" FontWeight="Bold"/>
+                    <Label Content="{Binding IsMoving, Converter={StaticResource BoolToStringConverter}}" 
+                               Foreground="{Binding IsMoving, Converter={StaticResource BoolToColorConverter}}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" Orientation="Horizontal">
+                    <Label Content="速度比例:" FontWeight="Bold"/>
+                    <TextBox Width="50" Text="{Binding SpeedRatio}" VerticalAlignment="Center"/>
+                    <Label Content="%"/>
+                    <Button Content="设置" Style="{StaticResource ModernButtonStyle}" 
+                                Width="60"
+                                Click="BtnSetSpeedRatio_Click" Margin="5,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="4" Orientation="Horizontal">
+                    <Label Content="错误状态:" FontWeight="Bold"/>
+                    <Ellipse Width="10" Height="10" 
+                                 Fill="{Binding HasError, Converter={StaticResource BoolToErrorColorConverter}}" 
+                                 VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Button Grid.Column="5" Content="急停" Style="{StaticResource DangerButtonStyle}" 
+                            Width="60"
+                            FontWeight="Bold" Click="BtnEmergencyStop_Click" Margin="10,0"/>
+            </Grid>
+        </Grid>
+    </GroupBox>
+
+    主要内容区域
+    <Grid Grid.Row="1" Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        左列：位置信息 
+            Style="{StaticResource ModernGroupBoxStyle}"
+        <GroupBox Grid.Column="0" Header="机器人位置信息" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="291.77"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="关节位置 (度)" FontWeight="Bold" Margin="0,0,0,5"/>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding JointPositions}" 
+                              Style="{StaticResource ModernDataGridStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="关节" Binding="{Binding Name}" Width="60"/>
+                        <DataGridTextColumn Header="位置" Binding="{Binding Value, StringFormat=F3}" Width="*"/>
+                        <DataGridTextColumn Header="单位" Binding="{Binding Unit}" Width="40"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Label Grid.Row="2" Content="笛卡尔位置" FontWeight="Bold" Margin="0,10,0,5"/>
+                <DataGrid Grid.Row="3" ItemsSource="{Binding CartesianPositions}" 
+                              Style="{StaticResource ModernDataGridStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="轴" Binding="{Binding Name}" Width="60"/>
+                        <DataGridTextColumn Header="位置" Binding="{Binding Value, StringFormat=F3}" Width="*"/>
+                        <DataGridTextColumn Header="单位" Binding="{Binding Unit}" Width="40"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+
+        中列：程序控制和变量
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            程序控制
+            <GroupBox Grid.Row="0" Header="程序控制">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    程序名称
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Label Content="程序名称:" Width="80"/>
+                        <TextBox Text="{Binding ProgramName}" Width="150"/>
+                    </StackPanel>
+
+                    程序控制按钮
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button Content="上传程序" Style="{StaticResource ModernButtonStyle}" 
+                                    Width="60"
+                                    Click="BtnUploadProgram_Click" Margin="10,0,0,0"/>
+                        <Button Content="启动" Style="{StaticResource SuccessButtonStyle}"
+                                    Width="60"
+                                    Click="BtnStartProgram_Click" Margin="10,0,0,0"/>
+                        <Button Content="停止" Style="{StaticResource DangerButtonStyle}" 
+                                    Width="60"
+                                    Click="BtnStopProgram_Click" Margin="10,0,0,0"/>
+                        <Button Content="暂停" Style="{StaticResource ModernButtonStyle}"
+                                    Margin="10,0,0,0"
+                                    Width="60"
+                                    Click="BtnPauseProgram_Click"/>
+                    </StackPanel>
+
+                    程序状态
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="程序状态:" FontWeight="Bold" Width="80"/>
+                        <Label Content="{Binding ProgramStatus}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Label Content="运行行号:" FontWeight="Bold" Width="80"/>
+                        <Label Content="{Binding ProgramLine}"/>
+                    </StackPanel>
+
+
+                </Grid>
+            </GroupBox>
+
+            变量控制
+            <GroupBox Grid.Row="1" Header="变量控制">
+                <TabControl>
+                    GR变量
+                    <TabItem Header="GR变量 (浮点)">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            GR操作控制
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5,0,10">
+                                <Label Content="索引:" FontWeight="Bold" Width="50"/>
+                                <TextBox Text="{Binding GRIndex}" Width="50" Margin="0,0,10,0"/>
+                                <Label Content="值:" FontWeight="Bold" Width="30"/>
+                                <TextBox Text="{Binding GRValue}" Width="80" Margin="0,0,10,0"/>
+                                <Button Content="设置" Style="{StaticResource ModernButtonStyle}" 
+                                            Width="50"
+                                            Click="BtnSetGR_Click" Margin="5 0 0 0"/>
+                                <Button Content="获取" Style="{StaticResource ModernButtonStyle}" 
+                                            Width="50"
+                                            Click="BtnGetGR_Click"
+                                            Margin="5 0 0 0"/>
+                            </StackPanel>
+
+                            GR变量列表
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding GRVariables}" 
+                                          Style="{StaticResource ModernDataGridStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="索引" Binding="{Binding Index}" Width="50"/>
+                                    <DataGridTextColumn Header="值" Binding="{Binding Value}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+
+                    GI变量
+                    <TabItem Header="GI变量 (整数)">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            GI操作控制
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5,0,10">
+                                <Label Content="索引:" FontWeight="Bold" Width="50"/>
+                                <TextBox Text="{Binding GIIndex}" Width="50" Margin="0,0,10,0"/>
+                                <Label Content="值:" FontWeight="Bold" Width="30"/>
+                                <TextBox Text="{Binding GIValue}" Width="80" Margin="0,0,10,0"/>
+                                <Button Content="设置" Style="{StaticResource ModernButtonStyle}" 
+                                            Width="50"
+                                            Click="BtnSetGI_Click" Margin="5,0,0,0"/>
+                                <Button Content="获取" Style="{StaticResource ModernButtonStyle}" 
+                                            Margin="5 0 0 0"
+                                            Width="50"
+                                            Click="BtnGetGI_Click"/>
+                            </StackPanel>
+
+                            GI变量列表
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding GIVariables}" 
+                                          Style="{StaticResource ModernDataGridStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="索引" Binding="{Binding Index}" Width="50"/>
+                                    <DataGridTextColumn Header="值" Binding="{Binding Value}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </GroupBox>
+        </Grid>
+
+        右列：IO状态
+        <GroupBox Grid.Column="2" Header="IO状态监控">
+            <DataGrid ItemsSource="{Binding IOStatus}" Style="{StaticResource ModernDataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="IO名称" Binding="{Binding Name}" Width="80"/>
+                    <DataGridTextColumn Header="类型" Binding="{Binding Type}" Width="60"/>
+                    <DataGridTemplateColumn Header="状态" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="12" Height="12" 
+                                                 Fill="{Binding Value, Converter={StaticResource BoolToIOColorConverter}}" 
+                                                 VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <TextBlock Text="{Binding Value, Converter={StaticResource BoolToIOTextConverter}}" 
+                                                   VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        错误列表
+        <GroupBox Grid.Column="3" Header="系统错误">
+            <DataGrid ItemsSource="{Binding ErrorList}" 
+              Style="{StaticResource ModernDataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="错误ID" Binding="{Binding Id}" Width="80"/>
+                    <DataGridTextColumn Header="错误信息" Binding="{Binding Message}" Width="*"/>
+                    <DataGridTextColumn Header="时间" Binding="{Binding Timestamp, StringFormat=HH:mm:ss}" Width="60"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </Grid>
+
+    底部日志区域
+    <GroupBox Grid.Row="2" Header="系统日志">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Margin="10,0,0,5">
+                <Button Content="清空日志" Style="{StaticResource ModernButtonStyle}" 
+                            Width="80"
+                            Click="BtnClearLog_Click"/>
+                <CheckBox Content="自动滚动" IsChecked="True" VerticalAlignment="Center" Margin="10,0" Width="100" Height="40"/>
+            </StackPanel>
+
+            <ListBox Grid.Row="1" ItemsSource="{Binding LogMessages}" 
+                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.RowSpan="2">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontFamily="Consolas" FontSize="11" Margin="2"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </GroupBox>
+</Grid>-->

@@ -1,120 +1,36 @@
 ﻿using PropertyChanged;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using UdpClient = NetCoreServer.UdpClient;
+using System.Windows.Threading;
 
 namespace UdpLowerMachine
 {
-	/// <summary>
-	/// 自定义UDP客户端类，继承自NetCoreServer.UdpClient
-	/// </summary>
-	public class LowerMachineUdpClient : UdpClient
-	{
-		private MainWindow _mainWindow;
-		private bool _stop = false;
-
-		public LowerMachineUdpClient(string address, int port, MainWindow mainWindow) : base(address, port)
-		{
-			_mainWindow = mainWindow;
-		}
-
-		public void DisconnectAndStop()
-		{
-			_stop = true;
-			Disconnect();
-			while (IsConnected)
-				Thread.Yield();
-		}
-
-		// 连接成功
-		protected override void OnConnected()
-		{
-			_mainWindow?.AddLog($"UDP客户端已连接，会话ID: {Id}");
-			// 开始接收数据包
-			ReceiveAsync();
-		}
-
-		// 断开连接
-		protected override void OnDisconnected()
-		{
-			_mainWindow?.AddLog($"UDP客户端已断开连接，会话ID: {Id}");
-
-			// 如果没有手动停止，尝试重连
-			if (!_stop)
-			{
-				Thread.Sleep(1000);
-				Connect();
-			}
-		}
-
-		// 接收到数据
-		protected override void OnReceived(EndPoint endpoint, byte[] buffer, long offset, long size)
-		{
-			try
-			{
-				// 创建实际数据数组
-				byte[] data = new byte[size];
-				Array.Copy(buffer, offset, data, 0, size);
-
-				// 处理接收到的消息
-				if (endpoint is IPEndPoint ipEndpoint)
-				{
-					_mainWindow?.ProcessReceivedMessage(data, ipEndpoint);
-				}
-
-				// 继续接收数据包
-				ReceiveAsync();
-			}
-			catch (Exception ex)
-			{
-				_mainWindow?.AddLog($"处理接收数据时出错: {ex.Message}");
-			}
-		}
-
-		// 发生错误
-		protected override void OnError(SocketError error)
-		{
-			_mainWindow?.AddLog($"UDP客户端发生错误: {error}");
-		}
-
-		// 发送消息
-		public void SendMessage(byte[] data)
-		{
-			Send(data);
-		}
-	}
-
-	/// <summary>
-	/// MainWindow.xaml 的交互逻辑
-	/// </summary>
 	[AddINotifyPropertyChangedInterface]
 	public partial class MainWindow : Window
 	{
-		private LowerMachineUdpClient? udpClient;
-		private IPEndPoint? localEndPoint;
+		private UdpClient? udpClient;
+		private IPEndPoint? remoteEndPoint;
 		private bool isListening = false;
 		private byte messageCode = 0;
-		private string localIP;
+
+		private CancellationTokenSource? cancellationTokenSource;
 
 		public ObservableCollection<string> LogMessages { get; set; }
 
 		public string LocalIP { get; set; } = "127.0.0.1";
 
-		public string LocalPort { get; set; } = "";
+		public string LocalPort { get; set; } = "6000";
 
 		public string RemoteIP { get; set; } = "127.0.0.1";
 
 		public string RemotePort { get; set; } = "5010";
 
 		public string ConnectionStatus { get; set; } = "未连接";
+		public string StartConnection { get; set; } = "开始连接";
 
 		public MainWindow()
 		{
@@ -124,57 +40,66 @@ namespace UdpLowerMachine
 			AddLog("程序启动");
 		}
 
-		private void StartConnection_Click(object sender, RoutedEventArgs e)
+		private async void StartConnection_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
 				if (isListening)
 				{
-					StopConnection();
+					await StopConnection();
 					return;
 				}
+
 				// 验证输入
 				if (!IPAddress.TryParse(RemoteIP, out _) || !int.TryParse(RemotePort, out int remotePortNum))
 				{
 					AddLog("远程IP或端口格式错误");
 					return;
 				}
-				// 创建UDP客户端，连接到远程服务器
-				udpClient = new LowerMachineUdpClient(RemoteIP, remotePortNum, this);
 
-				// 连接到服务器
-				if (udpClient.Connect())
+				if (!int.TryParse(LocalPort, out int localPortNum))
 				{
-					//本地端口
-					LocalPort = ((IPEndPoint)udpClient.Socket.LocalEndPoint).Port.ToString();
-					isListening = true;
-					ConnectionStatus = "已连接";
-					StartConnectionBtn.Content = "断开连接";
-					AddLog($"正在连接到远程服务器 {RemoteIP}:{RemotePort}");
+					AddLog("本地端口格式错误");
+					return;
 				}
-				else
-				{
-					AddLog("连接到UDP服务器失败");
-					StopConnection();
-				}
+
+				// 创建远程端点
+				remoteEndPoint = new IPEndPoint(IPAddress.Parse(RemoteIP), remotePortNum);
+
+				// 创建UDP客户端，绑定到本地端口
+				udpClient = new UdpClient(localPortNum);
+
+				isListening = true;
+				ConnectionStatus = "已连接";
+				StartConnection = "断开连接";
+
+				cancellationTokenSource = new CancellationTokenSource();
+
+				AddLog($"下位机已启动，本地端口: {LocalPort}，目标上位机: {RemoteIP}:{RemotePort}");
+
+				// 开始接收消息
+				_ = Task.Run(async () => await ReceiveMessages(cancellationTokenSource.Token));
 			}
 			catch (Exception ex)
 			{
-				AddLog($"连接失败: {ex.Message}");
-				StopConnection();
+				AddLog($"启动连接失败: {ex.Message}");
+				await StopConnection();
 			}
 		}
 
-		private void StopConnection()
+		private async Task StopConnection()
 		{
 			try
 			{
 				isListening = false;
-				udpClient?.DisconnectAndStop();
+				cancellationTokenSource?.Cancel();
+
+				udpClient?.Close();
+				udpClient?.Dispose();
 				udpClient = null;
 
 				ConnectionStatus = "未连接";
-				StartConnectionBtn.Content = "开始连接";
+				StartConnection = "开始连接";
 				AddLog("连接已断开");
 			}
 			catch (Exception ex)
@@ -183,7 +108,31 @@ namespace UdpLowerMachine
 			}
 		}
 
-		public async void ProcessReceivedMessage(byte[] data, IPEndPoint senderEndPoint)
+		private async Task ReceiveMessages(CancellationToken cancellationToken)
+		{
+			try
+			{
+				while (!cancellationToken.IsCancellationRequested && udpClient != null)
+				{
+					var result = await udpClient.ReceiveAsync();
+					await ProcessReceivedMessage(result.Buffer, result.RemoteEndPoint);
+				}
+			}
+			catch (ObjectDisposedException)
+			{
+				// UDP客户端已释放，正常退出
+			}
+			catch (OperationCanceledException)
+			{
+				// 操作被取消，正常退出
+			}
+			catch (Exception ex)
+			{
+				AddLog($"接收消息时出错: {ex.Message}");
+			}
+		}
+
+		public async Task ProcessReceivedMessage(byte[] data, IPEndPoint senderEndPoint)
 		{
 			try
 			{
@@ -218,16 +167,16 @@ namespace UdpLowerMachine
 			{
 				case 20: // 初始化命令
 					AddLog("收到初始化命令(20)");
-					await SendAckMessage(21, msgCode); // 发送ACK
-													   //初始化
+					await SendAckMessage(21, msgCode);
 					await Task.Delay(1000); // 模拟初始化过程
-					await SendInitCompleteMessage(22, msgCode); // 发送初始化完成
+
+					await SendInitCompleteMessage(22, msgCode);
 					break;
 
 				case 30: // 虚拟焊接命令
 					AddLog("收到虚拟焊接命令(30)");
 					await SendAckMessage(31, msgCode);
-					//虚拟焊接
+
 					await Task.Delay(2000); // 模拟虚拟焊接过程
 					await SendVirtualWeldCompleteMessage(32, msgCode);
 					break;
@@ -235,8 +184,8 @@ namespace UdpLowerMachine
 				case 40: // 焊接命令
 					AddLog("收到焊接命令(40)");
 					await SendAckMessage(41, msgCode);
-					//焊接
 					await Task.Delay(3000); // 模拟焊接过程
+
 					await SendWeldCompleteMessage(42, msgCode);
 					break;
 
@@ -248,8 +197,8 @@ namespace UdpLowerMachine
 				case 60: // 焊后检测命令
 					AddLog("收到焊后检测命令(60)");
 					await SendAckMessage(61, msgCode);
-					//焊后检测
 					await Task.Delay(2000); // 模拟检测过程
+
 					await SendDetectionCompleteMessage(62, msgCode);
 					break;
 
@@ -259,12 +208,20 @@ namespace UdpLowerMachine
 			}
 		}
 
+		private async Task SendMessage(byte[] data)
+		{
+			if (udpClient != null && remoteEndPoint != null && isListening)
+			{
+				await udpClient.SendAsync(data, data.Length, remoteEndPoint);
+			}
+		}
+
 		private async Task SendAckMessage(byte protocolType, byte originalMsgCode)
 		{
 			try
 			{
 				var packet = CreateProtocolPacket(protocolType, originalMsgCode, "");
-				await Task.Run(() => udpClient?.SendMessage(packet));
+				await SendMessage(packet);
 				AddLog($"发送ACK消息 - 协议类型:{protocolType} 消息码:{originalMsgCode}");
 			}
 			catch (Exception ex)
@@ -278,7 +235,7 @@ namespace UdpLowerMachine
 			try
 			{
 				var packet = CreateProtocolPacket(protocolType, originalMsgCode, "0:success");
-				await Task.Run(() => udpClient?.SendMessage(packet));
+				await SendMessage(packet);
 				AddLog($"发送初始化完成消息 - 协议类型:{protocolType}");
 			}
 			catch (Exception ex)
@@ -292,7 +249,7 @@ namespace UdpLowerMachine
 			try
 			{
 				var packet = CreateProtocolPacket(protocolType, originalMsgCode, "0:success:virtual_weld_file.pro");
-				await Task.Run(() => udpClient?.SendMessage(packet));
+				await SendMessage(packet);
 				AddLog($"发送虚拟焊接完成消息 - 协议类型:{protocolType}");
 			}
 			catch (Exception ex)
@@ -306,7 +263,7 @@ namespace UdpLowerMachine
 			try
 			{
 				var packet = CreateProtocolPacket(protocolType, originalMsgCode, "0:success:weld_result_file.log");
-				await Task.Run(() => udpClient?.SendMessage(packet));
+				await SendMessage(packet);
 				AddLog($"发送焊接完成消息 - 协议类型:{protocolType}");
 			}
 			catch (Exception ex)
@@ -320,7 +277,7 @@ namespace UdpLowerMachine
 			try
 			{
 				var packet = CreateProtocolPacket(protocolType, originalMsgCode, "0:success:detection_image.bmp:pointcloud.ply");
-				await Task.Run(() => udpClient?.SendMessage(packet));
+				await SendMessage(packet);
 				AddLog($"发送检测完成消息 - 协议类型:{protocolType}");
 			}
 			catch (Exception ex)
@@ -331,7 +288,7 @@ namespace UdpLowerMachine
 
 		private async void SendStatusMessage_Click(object sender, RoutedEventArgs e)
 		{
-			if (!isListening || udpClient == null || !udpClient.IsConnected)
+			if (!isListening || udpClient == null)
 			{
 				AddLog("未连接，无法发送状态消息");
 				return;
@@ -341,7 +298,7 @@ namespace UdpLowerMachine
 			{
 				messageCode = (byte)((messageCode + 1) % 256);
 				var packet = CreateProtocolPacket(1, messageCode, "1:设备正常运行");
-				await Task.Run(() => udpClient.SendMessage(packet));
+				await SendMessage(packet);
 				AddLog($"发送周期性状态消息 - 消息码:{messageCode}");
 			}
 			catch (Exception ex)
@@ -431,7 +388,7 @@ namespace UdpLowerMachine
 
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			StopConnection();
+			_ = StopConnection();
 			base.OnClosing(e);
 		}
 	}

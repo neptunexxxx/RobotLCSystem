@@ -47,6 +47,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="RobotService-dotnet">
+      <HintPath>..\bin\RobotService-dotnet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="图片\LOGO.png" />
     <Resource Include="图片\登录背景.jpg" />
     <Resource Include="字体\MiSans-Normal.ttf" />

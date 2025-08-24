@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Lmes"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             StartupUri="主界面.xaml">
+             StartupUri="下位机首页.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
